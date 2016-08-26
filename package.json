@@ -4,10 +4,6 @@
   "author": "Gregory Benner <gregbenner1@gmail.com> (https://github.com/Klathmon)",
   "license": "MIT",
   "description": "A simple task runner",
-  "scripts": {
-    "run": "babel-node -- src/topolo.js upload bumpMinorVersion",
-    "help": "babel-node -- src/topolo.js --help"
-  },
   "topolo": {
     "upload": {
       "command": "echo \"this should upload to the server\"",
@@ -21,7 +17,7 @@
         "clean"
       ],
       "optionalDependencies": [
-        "bumpMinorVersion"
+        "bumpVersion"
       ]
     },
     "clean": {
@@ -30,8 +26,9 @@
         "neverUsed"
       ]
     },
-    "bumpMinorVersion": {
-      "command": "echo \"this should bump the minor version and run before build\""
+    "bumpVersion": {
+      "command": "echo \"this should bump the $1 version and run before build\"",
+      "defaultValues": ["major"]
     },
     "neverUsed": {
       "command": "echo \"this command is never used\""
