@@ -1,0 +1,68 @@
+{
+  "name": "topolo",
+  "version": "0.0.1",
+  "author": "Gregory Benner <gregbenner1@gmail.com> (https://github.com/Klathmon)",
+  "license": "MIT",
+  "description": "A simple task runner",
+  "scripts": {
+    "run": "babel-node -- src/topolo.js upload bumpMinorVersion",
+    "help": "babel-node -- src/topolo.js --help"
+  },
+  "topolo": {
+    "upload": {
+      "command": "echo \"this should upload to the server\"",
+      "dependencies": [
+        "build"
+      ]
+    },
+    "build": {
+      "command": "echo \"this should build the app\"",
+      "dependencies": [
+        "clean"
+      ],
+      "optionalDependencies": [
+        "bumpMinorVersion"
+      ]
+    },
+    "clean": {
+      "command": "rm -rf build",
+      "optionalDependencies": [
+        "neverUsed"
+      ]
+    },
+    "bumpMinorVersion": {
+      "command": "echo \"this should bump the minor version and run before build\""
+    },
+    "neverUsed": {
+      "command": "echo \"this command is never used\""
+    }
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  },
+  "babel": {
+    "plugins": [
+      "transform-runtime"
+    ],
+    "presets": [
+      "es2015",
+      "stage-1"
+    ]
+  },
+  "dependencies": {
+    "chalk": "1.1.3",
+    "cross-spawn": "4.0.0",
+    "es6-promisify": "4.1.0",
+    "lodash": "4.15.0",
+    "moment": "2.14.1",
+    "spawn-args": "0.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "6.11.4",
+    "babel-plugin-transform-runtime": "6.12.0",
+    "babel-preset-es2015": "6.13.2",
+    "babel-preset-stage-1": "6.13.0",
+    "commander": "2.9.0",
+    "standard": "8.0.0-beta.5"
+  }
+}
