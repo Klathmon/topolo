@@ -31,5 +31,5 @@ export function expandParams (str, params, defaultParams) {
 }
 
 function buildRegex (index) {
-  return new RegExp(`(\\\$${index + 1})`)
+  return new RegExp(`(\\\$${index + 1})`, 'g')
 }
