@@ -1,6 +1,8 @@
 import { white, cyan, magenta, gray, black } from 'chalk'
 import moment from 'moment'
 
+const localConsoleLog = console.log
+
 export function startCommand (name) {
   const startTime = process.hrtime()
   _consoleLog(white('Starting \'') + cyan(name) + white('\'...'))
@@ -18,8 +20,8 @@ export function logError (err) {
   }
 
   _consoleLog(white.bgRed('ERROR: ' + errToThrow.message))
-  console.log()
-  console.log(errToThrow)
+  localConsoleLog()
+  localConsoleLog(errToThrow)
 
   throw errToThrow
 }
@@ -36,7 +38,7 @@ export function logVerbose (message) {
 }
 
 function _consoleLog (message) {
-  console.log(white('[') + gray(_getTime()) + white(']') + ' ' + message)
+  localConsoleLog(white('[') + gray(_getTime()) + white(']') + ' ' + message)
 }
 
 function _getTime () {
