@@ -38,21 +38,18 @@ export default {
       exclude: /node_modules/,
       loader: 'babel-loader',
       query: {
+        'plugins': [
+          'transform-runtime'
+        ],
         presets: [
-          ['es2015', { modules: false }],
-          'stage-1'
+          ['es2015', { modules: false, loose: true }],
+          'stage-2'
         ]
       }
     }, {
       test: /\.json$/i,
       exclude: /node_modules/,
-      loader: 'json-loader',
-      query: {
-        presets: [
-          ['es2015', { modules: false }],
-          'stage-1'
-        ]
-      }
+      loader: 'json-loader'
     }]
   }
 }
