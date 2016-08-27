@@ -7,7 +7,9 @@
   "scripts": {
     "build": "webpack"
   },
-  "bin": "dist/topolo.js",
+  "bin": {
+    "topolo": "dist/topolo.js"
+  },
   "topolo": {
     "upload": {
       "command": "echo \"this should upload to the server\"",
@@ -73,5 +75,17 @@
     "spawn-args": "0.2.0",
     "standard": "8.0.0",
     "webpack": "2.1.0-beta.21"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Klathmon/topolo.git"
+  },
+  "keywords": [
+    "build system",
+    "task runner"
+  ],
+  "bugs": {
+    "url": "https://github.com/Klathmon/topolo/issues"
+  },
+  "homepage": "https://github.com/Klathmon/topolo#readme"
 }
