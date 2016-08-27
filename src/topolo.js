@@ -10,7 +10,7 @@ commander
   .version(packageJson.version)
   .usage('<task ...>')
   .option('-c, --config <config>', 'select the config file', './package.json')
-  .option('-v, --verbose', 'enable verbose logging mode', false)
+  .option('--verbose', 'enable verbose logging mode', false)
   .command('* [command...]')
   .description('run the given task')
   .action(run)
