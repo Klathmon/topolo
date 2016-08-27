@@ -67,19 +67,3 @@ function runCommand (name, command, env) {
     })
   }
 }
-
-const REPLACE_ENV_VAR_LINUX_REGEX = /\${?([A-Z][a-zA-Z0-9_]*)}?/g
-const REPLACE_ENV_VAR_WINDOWS_REGEX = /%([A-Z][a-zA-Z0-9_]*)%/g
-/**
- * Takes a command string and replaces environment variables with the other platform's version
- * (so windows gets linux style converted to windows, and linux gets windows styles converted to linux)
- * @param  {String} commandString
- * @return {String}
- */
-function replaceEnvVars (commandString) {
-  if (process.platform === 'win32') {
-    return commandString.replace(REPLACE_ENV_VAR_LINUX_REGEX, '%$1%')
-  } else {
-    return commandString.replace(REPLACE_ENV_VAR_WINDOWS_REGEX, '$${$1}')
-  }
-}
