@@ -4,6 +4,9 @@
   "author": "Gregory Benner <gregbenner1@gmail.com> (https://github.com/Klathmon)",
   "license": "MIT",
   "description": "A simple task runner",
+  "scripts": {
+    "build": "webpack"
+  },
   "topolo": {
     "upload": {
       "command": "echo \"this should upload to the server\"",
@@ -28,7 +31,9 @@
     },
     "bumpVersion": {
       "command": "echo \"this should bump the $1 version and run before build\"",
-      "defaultValues": ["major"]
+      "defaultValues": [
+        "major"
+      ]
     },
     "neverUsed": {
       "command": "echo \"this command is never used\""
@@ -38,9 +43,6 @@
     "parser": "babel-eslint"
   },
   "babel": {
-    "plugins": [
-      "transform-runtime"
-    ],
     "presets": [
       "es2015",
       "stage-1"
@@ -56,10 +58,15 @@
   },
   "devDependencies": {
     "babel-cli": "6.11.4",
+    "babel-core": "6.14.0",
+    "babel-loader": "6.2.5",
+    "babel-plugin-lodash": "3.2.8",
     "babel-plugin-transform-runtime": "6.12.0",
     "babel-preset-es2015": "6.13.2",
     "babel-preset-stage-1": "6.13.0",
     "commander": "2.9.0",
-    "standard": "8.0.0-beta.5"
+    "progress-bar-webpack-plugin": "1.9.0",
+    "standard": "8.0.0-beta.5",
+    "webpack": "2.1.0-beta.21"
   }
 }
