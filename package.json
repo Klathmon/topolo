@@ -27,7 +27,7 @@
       "dependencies": ["clean"]
     },
     "clean": {
-      "command": "rimraf dist"
+      "command": "rimraf dist .nyc_output coverage"
     }
   },
   "standard": {
