@@ -30,6 +30,10 @@ export default {
       output: {
         comments: false
       }
+    }),
+    new webpack.BannerPlugin({
+      banner: '#!/usr/bin/env node',
+      raw: true
     })
   ],
   module: {

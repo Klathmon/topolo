@@ -1,6 +1,6 @@
 {
   "name": "topolo",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Gregory Benner <gregbenner1@gmail.com> (https://github.com/Klathmon)",
   "license": "MIT",
   "description": "A simple task runner",
@@ -17,14 +17,18 @@
       "env": {
         "NODE_ENV": "test"
       },
-      "dependencies": ["clean"]
+      "dependencies": [
+        "clean"
+      ]
     },
     "build": {
       "command": "webpack",
       "env": {
         "NODE_ENV": "production"
       },
-      "dependencies": ["clean"]
+      "dependencies": [
+        "clean"
+      ]
     },
     "clean": {
       "command": "rimraf dist .nyc_output coverage"
@@ -42,7 +46,7 @@
       "transform-runtime"
     ],
     "presets": [
-      "es2015-node4",
+      "es2015",
       "stage-2"
     ]
   },
@@ -70,7 +74,6 @@
     "progress-bar-webpack-plugin": "1.9.0",
     "spawn-args": "0.2.0",
     "standard": "8.0.0",
-    "topolo": "0.0.2",
     "webpack": "2.1.0-beta.21"
   },
   "repository": {
