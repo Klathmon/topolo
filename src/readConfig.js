@@ -22,12 +22,12 @@ export default async function readConfig (configFile) {
   const config = (programName in rawConfig ? rawConfig[programName] : rawConfig)
   // map over the config's values and add the task name as a property, this returns an object
   return mapValues(config, (task, taskName) => ({
-    env: [], // These will be overwritten by spreading task below them
-    command: null, // These will be overwritten by spreading task below them
-    dependencies: [], // These will be overwritten by spreading task below them
-    defaultValues: [], // These will be overwritten by spreading task below them
-    optionalDependencies: [], // These will be overwritten by spreading task below them
-    ...task,
-    name: taskName // This will overwrite anything in task
+   // These will be overwritten by spreading task below them
+    env: [],
+    command: null,
+    dependencies: [],
+    defaultValues: [],
+    optionalDependencies: [],
+    ...task
   }))
 }
