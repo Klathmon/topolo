@@ -9,6 +9,10 @@ export default {
     path: path.resolve(__dirname, 'dist'),
     filename: 'topolo.js'
   },
+  externals: {
+    'spawn-sync': 'commonjs spawn-sync',
+    'vertx': 'commonjs vertx'
+  },
   plugins: [
     new ProgressBarPlugin(),
     new webpack.LoaderOptionsPlugin({ debug: false, minimize: true }),
@@ -33,6 +37,16 @@ export default {
       test: /\.js$/i,
       exclude: /node_modules/,
       loader: 'babel-loader',
+      query: {
+        presets: [
+          ['es2015', { modules: false }],
+          'stage-1'
+        ]
+      }
+    }, {
+      test: /\.json$/i,
+      exclude: /node_modules/,
+      loader: 'json-loader',
       query: {
         presets: [
           ['es2015', { modules: false }],
