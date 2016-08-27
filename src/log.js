@@ -2,6 +2,7 @@ import { white, cyan, magenta, gray, black } from 'chalk'
 import moment from 'moment'
 
 const localConsoleLog = console.log
+const localVerboseMode = global.verbose
 
 export function startCommand (name) {
   const startTime = process.hrtime()
@@ -27,7 +28,7 @@ export function logError (err) {
 }
 
 export function logVerbose (message) {
-  if (global.verbose === true) {
+  if (localVerboseMode === true) {
     const verbose = black.bgWhite('VERBOSE:') + white(' ')
     if (typeof message === 'string') {
       _consoleLog(verbose + white(message))
