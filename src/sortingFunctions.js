@@ -1,8 +1,7 @@
-import { includes, union } from 'lodash'
+import { union, mapValues } from 'lodash'
 
 import {
   COMMAND,
-  ENV,
   DEFAULT_VALUES,
   REQ_BEFORE,
   OPT_BEFORE,
@@ -78,15 +77,18 @@ export function buildTaskList (tasks, unorderedTaskNames) {
   // Now convert the map into a plain old object that the rest of the program will use
   const builtTasks = {}
   for (let [taskName, task] of taskMap) {
-    builtTasks[taskName] = task
+    const command = task[COMMAND]
+    const defaultValues = task[DEFAULT_VALUES]
+    const params = getParams(taskName)
+    builtTasks[taskName] = {
+      ...task,
+      [COMMAND]: expandParams(command, params, defaultValues)
+    }
   }
+
   logVerbose('Built Tasks:')
   logVerbose(builtTasks)
   return builtTasks
-}
-
-function _getTask (taskName, taskMap, taskObject) {
-  return (taskMap.has(taskName) ? taskMap.get(taskName) : taskObject[getCannonicalName(taskName)])
 }
 
 /**
@@ -99,7 +101,11 @@ function _getTask (taskName, taskMap, taskObject) {
  */
 export function getOrderedTasks (tasks, unorderedTaskNames) {
   const sortedTasks = []
-  const nodes = getNodeList(tasks, unorderedTaskNames)
+  const nodes = mapValues(tasks, (task) => ({
+    task, // TODO: put task name here
+    tempMark: false,
+    permaMark: false
+  }))
 
   const topologicalSort = function topologicalSort (taskName) {
     if (!(taskName in nodes)) {
@@ -118,7 +124,7 @@ export function getOrderedTasks (tasks, unorderedTaskNames) {
       // Give it a temp mark to ensure we don't hit any cyclical dependencies
       node.tempMark = true
       // Then loop over the dependencies and do a depth first search in each
-      for (let dependentTaskName of node.task.dependencies) {
+      for (let dependentTaskName of node.task[REQ_BEFORE]) {
         topologicalSort(dependentTaskName)
       }
       // Set the permaMark, unset the tempMark, and push the node's task into the set of sorted tasks
@@ -134,37 +140,11 @@ export function getOrderedTasks (tasks, unorderedTaskNames) {
   }
 
   // At this point sortedTasks is an array of tasks in "run first" to "run last" order
+  logVerbose('Sorted Tasks:')
+  logVerbose(sortedTasks)
   return sortedTasks
 }
 
-function getNodeList (tasks, unorderedTaskNames) {
-  const nodes = {}
-  for (let taskName of unorderedTaskNames) {
-    if (!(getCannonicalName(taskName) in tasks)) {
-      logError(`Task "${taskName}" not found`)
-    }
-
-    const task = tasks[getCannonicalName(taskName)]
-    const params = getParams(taskName)
-    nodes[taskName] = {
-      task: {
-        ...task,
-        name: taskName,
-        // Expand any params included in the name into the command along with default params
-        command: expandParams(task.command, params, task.defaultValues),
-        // Add the declared dependencies with the optionalDependencies
-        dependencies: task.dependencies.concat(task.optionalDependencies.filter((optionalDependency) => {
-          // But only include the optional dependencies if they are in the list of unorderedTaskNames
-          return includes(unorderedTaskNames, optionalDependency)
-        })),
-        optionalDependencies: undefined // overwrite the orignal optionalDependencies
-      },
-      tempMark: false,
-      permaMark: false
-    }
-  }
-
-  logVerbose('Nodes Object:')
-  logVerbose(nodes)
-  return nodes
+function _getTask (taskName, taskMap, taskObject) {
+  return (taskMap.has(taskName) ? taskMap.get(taskName) : taskObject[getCannonicalName(taskName)])
 }
