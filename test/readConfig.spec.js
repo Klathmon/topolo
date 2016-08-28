@@ -1,12 +1,13 @@
 import { expect } from 'chai'
 import { stub } from 'sinon'
 import { resolve } from 'path'
+import { COMMAND, ENV, DEFAULT_VALUES } from '../src/configKeys'
 import readConfig, { __RewireAPI__ as rewireAPI } from '../src/readConfig'
 
 const standaloneConfig = JSON.stringify({
   'build': {
-    'command': 'webpack',
-    'env': {
+    [COMMAND]: 'webpack',
+    [ENV]: {
       'NODE_ENV': 'production'
     }
   }
@@ -51,7 +52,7 @@ describe('readConfig module', function () {
 
       const config = await readConfig('')
 
-      expect(config).to.have.property('build').that.has.property('defaultValues').that.has.length(0)
+      expect(config).to.have.property('build').that.has.property(DEFAULT_VALUES).that.has.length(0)
     })
     it('never overwrites a given value with a default', async function () {
       const readFileAsyncStub = stub().returns(standaloneConfig)
@@ -59,7 +60,7 @@ describe('readConfig module', function () {
 
       const config = await readConfig('')
 
-      expect(config).to.have.property('build').that.has.property('command').that.is.not.null
+      expect(config).to.have.property('build').that.has.property(COMMAND).that.is.not.null
     })
   })
 })
