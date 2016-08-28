@@ -5,6 +5,7 @@
   "license": "MIT",
   "description": "A simple task runner",
   "scripts": {
+    "prepublish": "topolo build",
     "build": "topolo build",
     "test": "topolo test",
     "testWatch": "topolo test:--watch",
@@ -40,6 +41,15 @@
       "env": {
         "NODE_ENV": "production"
       },
+      "dependencies": [
+        "clean"
+      ]
+    },
+    "publish": {
+      "command": "np $1",
+      "defaultValues": [
+        "patch"
+      ],
       "dependencies": [
         "clean"
       ]
