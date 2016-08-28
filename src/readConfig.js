@@ -17,7 +17,7 @@ const programName = packageJson.name
 export default async function readConfig (configFile) {
   const configFileFullPath = resolve(configFile)
   logVerbose(`Using config file at ${configFileFullPath}`)
-  const rawConfig = JSON.parse(await readFileAsync(configFileFullPath))
+  const rawConfig = JSON.parse(await readFileAsync(configFileFullPath, 'utf8'))
   // Pull out the sub-object from a package.json if we are reading one, otherwise use the whole file
   const config = (programName in rawConfig ? rawConfig[programName] : rawConfig)
   // map over the config's values and add the task name as a property, this returns an object
