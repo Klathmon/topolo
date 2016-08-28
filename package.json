@@ -7,14 +7,24 @@
   "scripts": {
     "build": "topolo build",
     "test": "topolo test",
-    "testWatch": "topolo test:--watch"
+    "testWatch": "topolo test:--watch",
+    "showCoverage": "topolo showCoverage"
   },
   "bin": {
     "topolo": "dist/topolo.js"
   },
   "topolo": {
+    "showCoverage": {
+      "command": "simplehttpserver coverage",
+      "dependencies": [
+        "opn"
+      ],
+      "optionalDependencies": [
+        "test"
+      ]
+    },
     "test": {
-      "command": "nyc --require babel-register mocha $1 test/test.js",
+      "command": "nyc mocha $1 test/test.js",
       "defaultValues": [
         ""
       ],
@@ -36,6 +46,9 @@
     },
     "clean": {
       "command": "rimraf dist .nyc_output coverage"
+    },
+    "opn": {
+      "command": "opn http://localhost:8000"
     }
   },
   "standard": {
@@ -58,6 +71,20 @@
       "es2015",
       "stage-2"
     ]
+  },
+  "nyc": {
+    "include": [
+      "src/*.js"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "reporter": [
+      "lcovonly",
+      "html",
+      "text"
+    ],
+    "all": true
   },
   "dependencies": {
     "cross-spawn": "4.0.0",
@@ -82,7 +109,9 @@
     "mocha-sinon": "1.1.5",
     "moment": "2.14.1",
     "nyc": "8.1.0",
+    "opn-cli": "3.1.0",
     "progress-bar-webpack-plugin": "1.9.0",
+    "simplehttpserver": "0.0.6",
     "sinon": "1.17.5",
     "sinon-chai": "2.8.0",
     "spawn-args": "0.2.0",
