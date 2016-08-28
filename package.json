@@ -5,11 +5,12 @@
   "license": "MIT",
   "description": "A simple task runner",
   "scripts": {
-    "prepublish": "topolo build",
+    "pub": "topolo publish",
     "build": "topolo build",
     "test": "topolo test",
     "testWatch": "topolo test:--watch",
-    "showCoverage": "topolo showCoverage"
+    "showCoverage": "topolo showCoverage",
+    "prepublish": "topolo build"
   },
   "bin": {
     "topolo": "dist/topolo.js"
