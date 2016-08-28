@@ -3,6 +3,11 @@ import spawn from 'cross-spawn'
 import spawnArgs from 'spawn-args'
 import { without } from 'lodash'
 
+import {
+  COMMAND,
+  ENV,
+  REQ_BEFORE
+} from './configKeys'
 // Constants
 const NEVER_RUN = Symbol('NEVER_RUN')
 const RUNNING = Symbol('RUNNING')
@@ -20,15 +25,27 @@ export default async function runTasks (orderedTasks) {
 function recurse (tasks) {
   return Promise.all(tasks.map(async function (task) {
     // If the task has no dependencies and has never been run, then run it
-    if (task.dependencies.length === 0 && task.status === NEVER_RUN) {
+    if (task[REQ_BEFORE].length === 0 && task.status === NEVER_RUN) {
       // Set it to running, then await the command to finish
       task.status = RUNNING
-      await runCommand(task.name, task.command, task.env)
+      let {
+        [COMMAND]: commands,
+        [ENV]: env,
+        name: taskName
+      } = task
+      let commandCounter = 0
+      for (let command of commands) {
+        commandCounter++
+        if (commands.length > 1) {
+          taskName = `${task.name} (${commandCounter} of ${commands.length})`
+        }
+        await runCommand(taskName, command, env)
+      }
 
       // When it's done, mark it as done then remove it from all other tasks' dependencies
       task.status = DONE
       for (let innerTask of tasks) {
-        innerTask.dependencies = without(innerTask.dependencies, task.name)
+        innerTask[REQ_BEFORE] = without(innerTask[REQ_BEFORE], task.name)
       }
 
       // Finally, re-run the recursive function and return it's result

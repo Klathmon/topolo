@@ -82,7 +82,8 @@ export function buildTaskList (tasks, unorderedTaskNames) {
     const params = getParams(taskName)
     builtTasks[taskName] = {
       ...task,
-      [COMMAND]: expandParams(command, params, defaultValues)
+      name: taskName,
+      [COMMAND]: [expandParams(command, params, defaultValues)]
     }
   }
 
@@ -102,7 +103,7 @@ export function buildTaskList (tasks, unorderedTaskNames) {
 export function getOrderedTasks (tasks, unorderedTaskNames) {
   const sortedTasks = []
   const nodes = mapValues(tasks, (task) => ({
-    task, // TODO: put task name here
+    task,
     tempMark: false,
     permaMark: false
   }))
