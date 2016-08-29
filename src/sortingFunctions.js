@@ -3,6 +3,7 @@ import { union, mapValues } from 'lodash'
 import {
   COMMAND,
   DEFAULT_VALUES,
+  REQ_ANYTIME,
   REQ_BEFORE,
   OPT_BEFORE,
   REQ_AFTER,
@@ -25,7 +26,7 @@ export function getUnorderedTaskNames (tasks, launchTaskNames) {
     // First, get the main "task" from it's name (which could have additional params tacked on)
     const task = tasks[getCannonicalName(taskName)]
     // Then we need to loop over every manditory "before" and "after" to ensure we are grabbing everything
-    for (let property of [REQ_BEFORE, REQ_AFTER]) {
+    for (let property of [REQ_BEFORE, REQ_AFTER, REQ_ANYTIME]) {
       for (let dependentTaskName of task[property]) {
         // Check if the dependentTaskName's cannonical name exists in the tasks and throw if it doesn't
         if (!(getCannonicalName(dependentTaskName) in tasks)) {
