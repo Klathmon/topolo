@@ -77,13 +77,13 @@ export function buildTaskList (tasks, unorderedTaskNames) {
   // Now convert the map into a plain old object that the rest of the program will use
   const builtTasks = {}
   for (let [taskName, task] of taskMap) {
-    const command = task[COMMAND]
+    const commands = (Array.isArray(task[COMMAND]) ? task[COMMAND] : [task[COMMAND]])
     const defaultValues = task[DEFAULT_VALUES]
     const params = getParams(taskName)
     builtTasks[taskName] = {
       ...task,
       name: taskName,
-      [COMMAND]: [expandParams(command, params, defaultValues)]
+      [COMMAND]: commands.map((command) => expandParams(command, params, defaultValues))
     }
   }
 
