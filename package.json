@@ -1,6 +1,6 @@
 {
   "name": "topolo",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "author": "Gregory Benner <gregbenner1@gmail.com> (https://github.com/Klathmon)",
   "license": "MIT",
   "description": "A simple task runner",
