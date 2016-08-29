@@ -2,7 +2,7 @@ import commander from 'commander'
 
 import { packageJson } from './packageJson'
 import { logVerbose, logError } from './log'
-import { getUnorderedTaskNames, getOrderedTasks } from './sortingFunctions'
+import { getUnorderedTaskNames, getOrderedTasks, buildTaskList } from './sortingFunctions'
 import readConfig from './readConfig'
 import runTasks from './runner'
 
@@ -32,10 +32,10 @@ async function run (launchTaskNames) {
     logVerbose(tasks)
 
     const unorderedTaskNames = getUnorderedTaskNames(tasks, launchTaskNames)
+    const taskList = buildTaskList(tasks, unorderedTaskNames)
+    const orderedTaskList = getOrderedTasks(taskList, unorderedTaskNames)
 
-    const orderedTasks = getOrderedTasks(tasks, unorderedTaskNames)
-
-    await runTasks(orderedTasks)
+    await runTasks(orderedTaskList)
 
     logVerbose('Done all tasks')
   } catch (err) {

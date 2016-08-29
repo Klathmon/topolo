@@ -6,7 +6,7 @@
   "description": "A simple task runner",
   "scripts": {
     "pub": "topolo publish",
-    "dev": "node ./test/manualTestDev.js",
+    "dev": "node ./test/manualTestDev.js build",
     "build": "topolo build",
     "test": "topolo test",
     "testWatch": "topolo test:--watch",
