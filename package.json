@@ -12,7 +12,7 @@
     "testWatch": "topolo test:--watch",
     "clean": "topolo clean",
     "showCoverage": "topolo showCoverage",
-    "dont-use-prepublish": "topolo build"
+    "prepublish": "topolo build"
   },
   "bin": {
     "topolo": "dist/topolo.js"
@@ -129,7 +129,7 @@
     "sinon-chai": "2.8.0",
     "spawn-args": "0.2.0",
     "standard": "8.0.0",
-    "topolo": "0.0.10",
+    "topolo": "0.0.12",
     "webpack": "2.1.0-beta.21"
   },
   "repository": {
