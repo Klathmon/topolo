@@ -12,7 +12,7 @@
     "testWatch": "topolo test:--watch",
     "clean": "topolo clean",
     "showCoverage": "topolo showCoverage",
-    "prepublish": "topolo build"
+    "prepublish": "topolo dev"
   },
   "bin": {
     "topolo": "dist/topolo.js"
