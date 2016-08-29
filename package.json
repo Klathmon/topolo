@@ -10,6 +10,7 @@
     "build": "topolo build",
     "test": "topolo test",
     "testWatch": "topolo test:--watch",
+    "clean": "topolo clean",
     "showCoverage": "topolo showCoverage",
     "prepublish": "topolo build"
   },
