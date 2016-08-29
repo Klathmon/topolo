@@ -1,6 +1,6 @@
 {
   "name": "topolo",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "author": "Gregory Benner <gregbenner1@gmail.com> (https://github.com/Klathmon)",
   "license": "MIT",
   "description": "A simple task runner",
@@ -10,6 +10,7 @@
     "build": "topolo build",
     "test": "topolo test",
     "testWatch": "topolo test:--watch",
+    "clean": "topolo clean",
     "showCoverage": "topolo showCoverage",
     "prepublish": "topolo build"
   },
@@ -19,10 +20,10 @@
   "topolo": {
     "showCoverage": {
       "command": "simplehttpserver coverage",
-      "dependencies": [
+      "before": [
         "opn"
       ],
-      "optionalDependencies": [
+      "optionalBefore": [
         "test"
       ]
     },
@@ -34,7 +35,7 @@
       "env": {
         "NODE_ENV": "test"
       },
-      "dependencies": [
+      "before": [
         "clean"
       ]
     },
@@ -43,7 +44,7 @@
       "env": {
         "NODE_ENV": "production"
       },
-      "dependencies": [
+      "before": [
         "clean"
       ]
     },
@@ -52,7 +53,7 @@
       "defaultValues": [
         "patch"
       ],
-      "dependencies": [
+      "before": [
         "clean"
       ]
     },
@@ -118,7 +119,6 @@
     "json-loader": "0.5.4",
     "lodash": "4.15.0",
     "mocha": "3.0.2",
-    "mocha-sinon": "1.1.5",
     "moment": "2.14.1",
     "np": "2.9.0",
     "nyc": "8.1.0",
@@ -129,7 +129,7 @@
     "sinon-chai": "2.8.0",
     "spawn-args": "0.2.0",
     "standard": "8.0.0",
-    "topolo": "0.0.7",
+    "topolo": "0.0.9",
     "webpack": "2.1.0-beta.21"
   },
   "repository": {
