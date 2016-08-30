@@ -49,7 +49,7 @@
       ]
     },
     "publish": {
-      "command": "np $1",
+      "command": "np $1 --skip-cleanup",
       "defaultValues": [
         "patch"
       ],
