@@ -38,11 +38,16 @@ describe('readConfig module', function () {
 
       expect(config).to.have.property('build')
     })
-    it('parses a standalone config correctly', async function () {
+    it('parses a standalone config JSON correctly', async function () {
       const readFileAsyncStub = stub().returns(standaloneConfig)
       rewireAPI.__set__('readFileAsync', readFileAsyncStub)
 
       const config = await readConfig('')
+
+      expect(config).to.have.property('build')
+    })
+    it('parses a standalone config commonjs module correctly', async function () {
+      const config = await readConfig(__dirname + '/test.module.js')
 
       expect(config).to.have.property('build')
     })
