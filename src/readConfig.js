@@ -33,7 +33,7 @@ export default async function readConfig (configFile) {
     // Pull out the sub-object from a package.json if we are reading one, otherwise use the whole file
     config = (programName in rawConfig ? rawConfig[programName] : rawConfig)
   } catch (err) {
-    config = require(configFileFullPath)
+    config = window['require'](configFileFullPath) // gotta trick webpack...
   }
   // map over the config's values and set defaults for any missing params
   return applyDefaults(config)
