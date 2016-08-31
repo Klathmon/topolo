@@ -12,7 +12,7 @@ export function runCommand (command = null, env = {}) {
         stdio: 'inherit',
         env: {
           ...process.env,
-          PATH: process.env.PATH + delimiter + pathResolve('.', 'node_modules', '.bin'),
+          PATH: process.env.PATH + delimiter + pathResolve(process.cwd(), 'node_modules', '.bin'),
           ...env
         }
       })
