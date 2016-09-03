@@ -11,22 +11,23 @@ module.exports = {
     }
   },
   test: {
-    command: function (param) {
-      return `nyc mocha ${(param === 'watch' ? '--watch' : '')} test/test.js`
-    },
+    command: (subtask) => `nyc mocha ${(subtask === 'watch' ? '--watch' : '')} test/test.js`,
     env: {
       NODE_ENV: 'development'
     },
     dependencies: 'clean'
   },
   showCoverage: {
-    command: 'http-server -p 8080 -c-1',
+    command: 'http-server ./coverage -p 8080 -c-1',
     dependencies: {
-      before: 'opn',
+      before: 'opn:8080',
       optionalBefore: 'test'
     }
   },
   clean: 'rimraf lib .nyc_output coverage',
   publish: 'echo "Not implemented yet..."',
-  opn: 'opn http://localhost:8080'
+  opn: {
+    command: (portNumber = 8080) => `opn http://localhost:${portNumber}`,
+    dependencies: 'test'
+  }
 }

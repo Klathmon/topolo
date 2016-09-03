@@ -1,4 +1,4 @@
-import { includes, mapValues, isObject, isArray } from 'lodash'
+import { includes, mapValues, isObject, isFunction, isArray } from 'lodash'
 
 import {
   COMMAND_KEY,
@@ -33,7 +33,7 @@ function expandTask (task) {
       [ANYTIME_KEY]: []
     }
   }
-  if (isObject(task)) {
+  if (isObject(task) && !isFunction(task) && !isArray(task)) {
     expandedTask[COMMAND_KEY] = task[COMMAND_KEY]
     expandedTask[ENV_KEY] = task[ENV_KEY]
     if (DEPENDENCIES_KEY in task) {
