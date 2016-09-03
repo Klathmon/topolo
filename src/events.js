@@ -5,13 +5,17 @@ import prettyHrtime from 'pretty-hrtime'
 import { format } from 'fecha'
 
 const localConsoleLog = console.log
-const localVerboseMode = global.verbose
+let verboseMode = false
 
 const VERBOSE = Symbol('VERBOSE')
 const LOG = Symbol('LOG')
 
 class LoggingEvents extends EventEmitter {}
 const eventBus = new LoggingEvents()
+
+export function setVerboseMode (mode) {
+  verboseMode = !!mode
+}
 
 export function logVerbose (message) {
   if (isString(message)) {
@@ -40,7 +44,7 @@ export function startTask (taskName) {
 }
 
 eventBus.on('log', (logLevel, message) => {
-  if (!localVerboseMode && logLevel === VERBOSE) return // Skip if verbose mode isn't turned on
+  if (!verboseMode && logLevel === VERBOSE) return // Skip if verbose mode isn't turned on
 
   localConsoleLog(_getTimestamp() + white(message))
 })
@@ -48,7 +52,7 @@ eventBus.on('log', (logLevel, message) => {
 eventBus.on('err', (err) => {
   localConsoleLog(_getTimestamp() + white.bgRed(err.message))
   localConsoleLog(err)
-  throw err
+  // throw err
 })
 
 function _getTimestamp () {
