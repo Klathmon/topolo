@@ -1,4 +1,4 @@
-import { includes, mapValues, isObject, isFunction, isArray, isString, get } from 'lodash'
+import { includes, mapValues, isFunction, isArray, isString, get } from 'lodash'
 
 import {
   COMMAND_KEY,
