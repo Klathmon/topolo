@@ -1,6 +1,8 @@
-import { without } from 'lodash'
+import { without, isArray, isFunction, isString, isEmpty } from 'lodash'
 
 import {
+  COMMAND_KEY,
+  ENV_KEY,
   DEPENDENCIES_KEY
 } from './configKeys'
 
@@ -9,6 +11,7 @@ const NEVER_RUN = Symbol('NEVER_RUN')
 const RUNNING = Symbol('RUNNING')
 const DONE = Symbol('DONE')
 
+import { runCommand } from './runCommand'
 import { startCommand, logError } from './log'
 
 export default async function runTasks (sortedTaskArray) {
@@ -30,7 +33,7 @@ function recurse (tasks) {
       // Set it to running, then await the command to finish
       task.status = RUNNING
 
-      await handleCommand(task)
+      await handleTask(task)
 
       // When it's done, mark it as done then remove it from all other tasks' dependencies
       task.status = DONE
@@ -44,6 +47,21 @@ function recurse (tasks) {
   }))
 }
 
-async function handleCommand (task) {
+async function handleTask ({ [COMMAND_KEY]: commands, [ENV_KEY]: env }) {
+  const name = 'NOT DONE!!!'
+  // Ensure commands is an array
+  const commandsArray = (isArray(commands) ? commands : [commands])
 
+  for (let command of commandsArray) {
+    // If it's a function, invoke it and use the result as the command to execute
+    if (isFunction(command)) {
+      command = await command()
+    }
+
+    if (isString(command) && !isEmpty(command)) {
+      await runCommand(command)
+    } else {
+      logError(`Command for task "${name}" is not a valid string`)
+    }
+  }
 }
