@@ -9,14 +9,13 @@ import {
   ANYTIME_KEY
 } from './configKeys'
 import { getRootTaskName } from './paramHelpers'
-import { logVerbose } from './log'
+import { logVerbose } from './events'
 
 export default function buildTaskDependencyGraph (tasks, requiredTaskNameSet) {
   const taskMap = orderTasks(tasks, requiredTaskNameSet)
   const orderedTaskObject = convertToObject(taskMap)
 
-  logVerbose('Ordered Task Object:')
-  logVerbose(orderedTaskObject)
+  logVerbose('Ordered Task Object: ' + JSON.stringify(orderedTaskObject, undefined, 2))
   return orderedTaskObject
 }
 

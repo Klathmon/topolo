@@ -1,4 +1,3 @@
-
 import {
   DEPENDENCIES_KEY,
   BEFORE_KEY,
@@ -6,7 +5,7 @@ import {
   ANYTIME_KEY
 } from './configKeys'
 import { getRootTaskName } from './paramHelpers'
-import { logError, logVerbose } from './log'
+import { fatalError, logVerbose } from './events'
 
 export default function buildRequiredTaskList (tasks, launchTaskNames) {
   const taskNameSet = new Set(launchTaskNames)
@@ -16,7 +15,7 @@ export default function buildRequiredTaskList (tasks, launchTaskNames) {
     // First strip off any included params on the task name
     const rootTaskName = getRootTaskName(taskName)
     // Throw if the task doesn't exist
-    logError(`Required task "${rootTaskName}" not found!`)
+    fatalError(`Required task "${rootTaskName}" not found!`)
     // Grab the dependencies for this task
     const { [DEPENDENCIES_KEY]: dependencies } = tasks[rootTaskName]
     for (let property of [BEFORE_KEY, AFTER_KEY, ANYTIME_KEY]) {
@@ -26,7 +25,6 @@ export default function buildRequiredTaskList (tasks, launchTaskNames) {
     }
   }
 
-  logVerbose('Required Task Names Set:')
-  logVerbose(taskNameSet)
+  logVerbose('Required Task Names Set: ' + JSON.stringify(taskNameSet, undefined, 2))
   return taskNameSet
 }

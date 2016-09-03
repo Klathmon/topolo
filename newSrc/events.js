@@ -20,7 +20,7 @@ export function logVerbose (message) {
   }
 }
 
-export function throwError (err) {
+export function fatalError (err) {
   if (isError(err)) {
     eventBus.emit('err', err)
   } else {

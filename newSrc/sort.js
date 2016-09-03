@@ -4,7 +4,7 @@ import { mapValues } from 'lodash'
 import {
   DEPENDENCIES_KEY
 } from './configKeys'
-import { logError, logVerbose } from './log'
+import { fatalError, logVerbose } from './events'
 
 export function sortTasks (taskDepGraph, requiredTaskNameSet) {
   const sortedTasks = []
@@ -19,7 +19,7 @@ export function sortTasks (taskDepGraph, requiredTaskNameSet) {
 
     // A temp mark at this point means that tasks is not a DAG (we hit a set of cyclical dependencies)
     if (node.tempMark === true) {
-      logError('Cyclical dependencies not allowed')
+      fatalError('Cyclical dependencies not allowed')
     }
 
     // if it's false, we haven't "finished" this one yet, so dive in
@@ -44,7 +44,6 @@ export function sortTasks (taskDepGraph, requiredTaskNameSet) {
 
   // At this point sortedTasks is an array of tasks in "run first" to "run last" order
   // And we are completely sure that there are no cyclical dependencies
-  logVerbose('Sorted Tasks:')
-  logVerbose(sortedTasks)
+  logVerbose('Sorted Tasks: ' + JSON.stringify(sortedTasks, undefined, 2))
   return sortedTasks
 }

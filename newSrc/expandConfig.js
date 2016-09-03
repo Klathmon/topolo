@@ -11,11 +11,11 @@ import {
   ANYTIME_KEY
 } from './configKeys'
 import { SEP } from './paramHelpers'
-import { logError } from './log'
+import { fatalError } from './events'
 
 export default function expandConfig (config) {
   if (includes(Object.keys(config).join(''), SEP)) {
-    logError(`Task names cannot include a "${SEP}" character!`)
+    fatalError(`Task names cannot include a "${SEP}" character!`)
   }
 
   return mapValues(config, expandTask)

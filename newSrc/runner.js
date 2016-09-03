@@ -12,7 +12,7 @@ const RUNNING = Symbol('RUNNING')
 const DONE = Symbol('DONE')
 
 import { runCommand } from './runCommand'
-import { startCommand, logError } from './log'
+import { fatalError } from './events'
 
 export default async function runTasks (sortedTaskArray) {
   // First tag every task with a status of NEVER_RUN
@@ -60,7 +60,7 @@ async function handleTask ({ taskName, [COMMAND_KEY]: commands, [ENV_KEY]: env }
     if (isString(command) && !isEmpty(command)) {
       await runCommand(command)
     } else {
-      logError(`Command for task "${taskName}" is not a valid string`)
+      fatalError(`Command for task "${taskName}" is not a valid string`)
     }
   }
 }
