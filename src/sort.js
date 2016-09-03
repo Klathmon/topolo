@@ -4,7 +4,7 @@ import { mapValues } from 'lodash'
 import {
   DEPENDENCIES_KEY
 } from './configKeys'
-import { fatalError, logVerbose } from './events'
+import { fatalError } from './events'
 
 export default function sortTasks (taskDepGraph, requiredTaskNameSet) {
   const sortedTasks = []
@@ -44,6 +44,5 @@ export default function sortTasks (taskDepGraph, requiredTaskNameSet) {
 
   // At this point sortedTasks is an array of tasks in "run first" to "run last" order
   // And we are completely sure that there are no cyclical dependencies
-  logVerbose('Sorted Tasks: ' + JSON.stringify(sortedTasks, undefined, 2))
   return sortedTasks
 }
