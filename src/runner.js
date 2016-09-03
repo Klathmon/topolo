@@ -56,7 +56,6 @@ async function handleTask ({ taskName, [COMMAND_KEY]: commands, [ENV_KEY]: env }
     const taskDisplayName = taskName + (commandsArray.length > 1 ? ` (${commandCounter} of ${commandsArray.length})` : '')
     const logTask = startTask(taskDisplayName)
     // If it's a function, invoke it and use the result as the command to execute
-    console.log(command)
     if (isFunction(command)) {
       command = await command(...getParams(taskName))
     }
