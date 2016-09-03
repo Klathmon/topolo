@@ -6,12 +6,12 @@ import Liftoff from 'liftoff'
 import { jsVariants } from 'interpret'
 import { isEmpty } from 'lodash'
 
-import { setVerboseMode, logVerbose, fatalError } from '../src/events'
-import expandConfig from '../src/expandConfig'
-import buildRequiredTaskList from '../src/buildRequiredTaskList'
-import buildTaskDependencyGraph from '../src/buildTaskDependencyGraph'
-import sortTasks from '../src/sort'
-import runTasks from '../src/runner'
+import { setVerboseMode, logVerbose, fatalError } from './events'
+import expandConfig from './expandConfig'
+import buildRequiredTaskList from './buildRequiredTaskList'
+import buildTaskDependencyGraph from './buildTaskDependencyGraph'
+import sortTasks from './sort'
+import runTasks from './runner'
 
 const APP_NAME = basename(__filename).split('.')[0]
 
