@@ -12,7 +12,7 @@ const RUNNING = Symbol('RUNNING')
 const DONE = Symbol('DONE')
 
 import { runCommand } from './runCommand'
-import { fatalError } from './events'
+import { fatalError, startTask } from './events'
 
 export default async function runTasks (sortedTaskArray) {
   // First tag every task with a status of NEVER_RUN
@@ -51,7 +51,11 @@ async function handleTask ({ taskName, [COMMAND_KEY]: commands, [ENV_KEY]: env }
   // Ensure commands is an array
   const commandsArray = (isArray(commands) ? commands : [commands])
 
+  let commandCounter = 0
   for (let command of commandsArray) {
+    commandCounter++
+    const taskDisplayName = (commandsArray.length > 1 ? `${taskName} (${commandCounter} of ${commandsArray.length})` : taskName)
+    const endTask = startTask(taskDisplayName)
     // If it's a function, invoke it and use the result as the command to execute
     if (isFunction(command)) {
       command = await command()
@@ -62,5 +66,6 @@ async function handleTask ({ taskName, [COMMAND_KEY]: commands, [ENV_KEY]: env }
     } else {
       fatalError(`Command for task "${taskName}" is not a valid string`)
     }
+    endTask()
   }
 }
