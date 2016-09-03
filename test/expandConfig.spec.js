@@ -19,6 +19,14 @@ describe('expandConfig.js', () => {
       'test:watch': 'thing'
     })).to.throw(Error)
   })
+  it('returns an expanded config correctly', () => {
+    const config = expandConfig({
+      build: 'stuff',
+      test: 'things'
+    })
+    expect(config).to.have.property('build').that.has.property(COMMAND_KEY).that.equals('stuff')
+    expect(config).to.have.property('test').that.has.property(COMMAND_KEY).that.equals('things')
+  })
 
   describe('wrapInArray()', () => {
     let wrapInArray
