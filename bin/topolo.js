@@ -7,11 +7,16 @@ import { jsVariants } from 'interpret'
 import { isEmpty } from 'lodash'
 
 import { setVerboseMode, logVerbose, fatalError } from '../src/events'
+import expandConfig from '../src/expandConfig'
+import buildRequiredTaskList from '../src/buildRequiredTaskList'
+import buildTaskDependencyGraph from '../src/buildTaskDependencyGraph'
+import sortTasks from '../src/sort'
+import runTasks from '../src/runner'
 
 const APP_NAME = basename(__filename).split('.')[0]
 
 const {
-  _: tasks,
+  _: launchTasks,
   config,
   verbose
 } = yargs
@@ -55,11 +60,16 @@ if (!isEmpty(config)) {
 
 logVerbose('Launch Options: ' + JSON.stringify(launchOptions, undefined, 2))
 
-liftoff.launch(launchOptions, ({ configNameSearch, configPath }) => {
+liftoff.launch(launchOptions, async function ({ configPath }) {
   if (isEmpty(configPath)) {
     fatalError(`Could not find ${capitalize(APP_NAME)} config file`)
   }
-  console.log(tasks)
-  console.log(configNameSearch)
-  console.log(configPath)
+
+  const config = require(configPath)
+  const tasks = expandConfig(config)
+  const taskNameSet = buildRequiredTaskList(tasks, launchTasks)
+  const taskDepGraph = buildTaskDependencyGraph(tasks, taskNameSet)
+  const sortedTasks = sortTasks(taskDepGraph, taskNameSet)
+  await runTasks(sortedTasks)
+  logVerbose('Done all tasks.')
 })
