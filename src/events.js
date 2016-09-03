@@ -1,4 +1,4 @@
-import { isString, isError } from 'lodash'
+import { isEmpty, isString, isError } from 'lodash'
 import { white, cyan, magenta, gray } from 'chalk'
 import prettyHrtime from 'pretty-hrtime'
 import { format } from 'fecha'
@@ -31,11 +31,15 @@ export function fatalError (err) {
 
 export function startTask (taskName) {
   const startTime = process.hrtime()
-  log(LOG, white('Starting \'') + cyan(taskName) + white('\'...'))
-
-  return function endTask () {
-    const timeSpent = prettyHrtime(process.hrtime(startTime))
-    log(LOG, white('Finished \'') + cyan(taskName) + white('\' after ') + magenta(timeSpent))
+  return function logTask (taskName, command) {
+    log(LOG, white('Starting \'') + cyan(taskName) + white('\'...'))
+    if (!isEmpty(command)) {
+      log(LOG, gray(command))
+    }
+    return function endTask () {
+      const timeSpent = prettyHrtime(process.hrtime(startTime))
+      log(LOG, white('Finished \'') + cyan(taskName) + white('\' after ') + magenta(timeSpent))
+    }
   }
 }
 

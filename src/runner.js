@@ -1,18 +1,16 @@
 import { without, isArray, isFunction, isString, isEmpty } from 'lodash'
-
 import {
   COMMAND_KEY,
   ENV_KEY,
   DEPENDENCIES_KEY
 } from './configKeys'
+import { runCommand } from './runCommand'
+import { fatalError, startTask } from './events'
 
 // Constants
 const NEVER_RUN = Symbol('NEVER_RUN')
 const RUNNING = Symbol('RUNNING')
 const DONE = Symbol('DONE')
-
-import { runCommand } from './runCommand'
-import { fatalError, startTask } from './events'
 
 export default async function runTasks (sortedTaskArray) {
   // First tag every task with a status of NEVER_RUN
@@ -54,12 +52,14 @@ async function handleTask ({ taskName, [COMMAND_KEY]: commands, [ENV_KEY]: env }
   let commandCounter = 0
   for (let command of commandsArray) {
     commandCounter++
-    const taskDisplayName = (commandsArray.length > 1 ? `${taskName} (${commandCounter} of ${commandsArray.length})` : taskName)
-    const endTask = startTask(taskDisplayName)
+    const taskDisplayName = taskName + (commandsArray.length > 1 ? ` (${commandCounter} of ${commandsArray.length})` : '')
+    const logTask = startTask(taskDisplayName)
     // If it's a function, invoke it and use the result as the command to execute
     if (isFunction(command)) {
       command = await command()
     }
+
+    const endTask = logTask(taskName, command)
 
     if (isString(command) && !isEmpty(command)) {
       await runCommand(command, env)
