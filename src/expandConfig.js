@@ -38,9 +38,10 @@ function expandTask (task) {
       if (!isObject(task[DEPENDENCIES_KEY])) {
         expandedTask[DEPENDENCIES_KEY][BEFORE_KEY] = task[DEPENDENCIES_KEY]
       }
+      // Ensure each dependencies property is an array
       for (let property of [BEFORE_KEY, OPTIONAL_BEFORE_KEY, AFTER_KEY, OPTIONAL_AFTER_KEY, ANYTIME_KEY]) {
-        if (!isArray(task[DEPENDENCIES_KEY][property])) {
-          task[DEPENDENCIES_KEY][property] = [task[DEPENDENCIES_KEY][property]]
+        if (!isArray(expandedTask[DEPENDENCIES_KEY][property])) {
+          expandedTask[DEPENDENCIES_KEY][property] = [expandedTask[DEPENDENCIES_KEY][property]]
         }
       }
     }
