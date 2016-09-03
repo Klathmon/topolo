@@ -1,7 +1,8 @@
 import { EventEmitter } from 'events'
 import { isString, isError } from 'lodash'
 import { white, cyan, magenta, gray } from 'chalk'
-import moment from 'moment'
+import prettyHrtime from 'pretty-hrtime'
+import { format } from 'fecha'
 
 const localConsoleLog = console.log
 const localVerboseMode = global.verbose
@@ -33,7 +34,7 @@ export function startTask (taskName) {
   eventBus.emit('log', LOG, white('Starting \'') + cyan(taskName) + white('\'...'))
 
   return function endTask () {
-    const timeSpent = _formatTime(...process.hrtime(startTime))
+    const timeSpent = prettyHrtime(process.hrtime(startTime))
     eventBus.emit('log', LOG, white('Finished \'') + cyan(taskName) + white('\' after ') + magenta(timeSpent))
   }
 }
@@ -51,26 +52,5 @@ eventBus.on('err', (err) => {
 })
 
 function _getTimestamp () {
-  return white('[') + gray(moment().format('HH:mm:ss.SSS')) + white(']') + ' '
-}
-
-function _formatTime (seconds, nanoseconds) {
-  const microseconds = Math.floor(nanoseconds / 1000)
-  const milliseconds = Math.floor(microseconds / 1000)
-  const fractionalSecond = Math.floor(milliseconds / 10) // if it was 1.34 seconds, this will be 34
-  const minutes = Math.floor(seconds / 60)
-
-  if (minutes >= 1) {
-    return minutes + ' min'
-  } else if (seconds >= 10) {
-    return seconds + ' s'
-  } else if (seconds >= 1) {
-    return seconds + '.' + ('00' + fractionalSecond).substr(-2, 2) + ' s'
-  } else if (milliseconds >= 1) {
-    return milliseconds + ' ms'
-  } else if (microseconds >= 1) {
-    return microseconds + ' μs'
-  } else {
-    return nanoseconds + ' ns'
-  }
+  return white('[') + gray(format(new Date(), 'longTime')) + white(']') + ' '
 }
