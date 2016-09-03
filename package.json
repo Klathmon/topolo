@@ -100,10 +100,14 @@
     "all": true
   },
   "dependencies": {
+    "chalk": "1.1.3",
     "cross-spawn": "4.0.0",
     "es6-promisify": "4.1.0",
     "interpret": "1.0.1",
-    "liftoff": "2.3.0"
+    "liftoff": "2.3.0",
+    "lodash": "4.15.0",
+    "moment": "2.14.1",
+    "spawn-args": "0.2.0"
   },
   "devDependencies": {
     "babel-cli": "6.14.0",
@@ -116,23 +120,14 @@
     "babel-preset-stage-2": "6.13.0",
     "babel-register": "6.14.0",
     "chai": "3.5.0",
-    "chalk": "1.1.3",
-    "commander": "2.9.0",
-    "json-loader": "0.5.4",
-    "lodash": "4.15.0",
     "mocha": "3.0.2",
-    "moment": "2.14.1",
     "np": "2.9.0",
     "nyc": "8.1.0",
     "opn-cli": "3.1.0",
-    "progress-bar-webpack-plugin": "1.9.0",
-    "simplehttpserver": "0.0.6",
     "sinon": "2.0.0-pre.2",
     "sinon-chai": "2.8.0",
-    "spawn-args": "0.2.0",
     "standard": "8.0.0",
-    "topolo": "0.0.16",
-    "webpack": "2.1.0-beta.21"
+    "topolo": "0.0.16"
   },
   "repository": {
     "type": "git",
