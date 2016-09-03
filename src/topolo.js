@@ -6,7 +6,7 @@ import Liftoff from 'liftoff'
 import { jsVariants } from 'interpret'
 import { isEmpty } from 'lodash'
 
-import { setVerboseMode, logVerbose, fatalError } from './events'
+import { setVerboseMode, logVerbose, fatalError } from './logging'
 import expandConfig from './expandConfig'
 import buildRequiredTaskList from './buildRequiredTaskList'
 import buildTaskDependencyGraph from './buildTaskDependencyGraph'

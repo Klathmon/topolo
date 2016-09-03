@@ -5,7 +5,7 @@ import {
   DEPENDENCIES_KEY
 } from './configKeys'
 import { runCommand } from './runCommand'
-import { fatalError, startTask } from './events'
+import { fatalError, startTask } from './logging'
 
 // Constants
 const NEVER_RUN = Symbol('NEVER_RUN')

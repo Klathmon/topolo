@@ -4,7 +4,7 @@ import { mapValues } from 'lodash'
 import {
   DEPENDENCIES_KEY
 } from './configKeys'
-import { fatalError } from './events'
+import { fatalError } from './logging'
 
 export default function sortTasks (taskDepGraph, requiredTaskNameSet) {
   const sortedTasks = []

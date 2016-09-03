@@ -11,7 +11,7 @@ import {
   ANYTIME_KEY
 } from './configKeys'
 import { SEP } from './paramHelpers'
-import { fatalError } from './events'
+import { fatalError } from './logging'
 
 export default function expandConfig (config) {
   if (includes(Object.keys(config).join(''), SEP)) {

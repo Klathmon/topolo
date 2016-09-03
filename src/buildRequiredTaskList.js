@@ -5,7 +5,7 @@ import {
   ANYTIME_KEY
 } from './configKeys'
 import { getRootTaskName } from './paramHelpers'
-import { fatalError } from './events'
+import { fatalError } from './logging'
 
 export default function buildRequiredTaskList (tasks, launchTaskNames) {
   const taskNameSet = new Set(launchTaskNames)
