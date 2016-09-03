@@ -19,6 +19,21 @@ describe('expandConfig.js', () => {
       'test:watch': 'thing'
     })).to.throw(Error)
   })
+
+  describe('wrapInArray()', () => {
+    let wrapInArray
+    before(() => wrapInArray = rewireAPI.__get__('wrapInArray'))
+
+    it('wraps a string in an array', () => {
+      const thing = 'test'
+      expect(wrapInArray(thing)).to.be.instanceof(Array).that.has.length(1)
+    })
+    it('doesn\'t touch an array that is passed in', () => {
+      const thing = ['test1', 'test2']
+      expect(wrapInArray(thing)).to.be.instanceof(Array).that.has.length(2)
+    })
+  })
+
   describe('expandTask()', () => {
     let expandTask
     before(() => expandTask = rewireAPI.__get__('expandTask'))
