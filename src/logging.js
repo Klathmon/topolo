@@ -3,7 +3,7 @@ import { white, cyan, magenta, gray, green } from 'chalk'
 import prettyHrtime from 'pretty-hrtime'
 import { format } from 'fecha'
 
-const localConsoleLog = console.log
+const localConsoleLog = (process.env.NODE_ENV === 'testing' ? () => null : console.log)
 let verboseMode = false
 
 const VERBOSE = Symbol('VERBOSE')
