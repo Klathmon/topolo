@@ -45,6 +45,8 @@ function expandTask (task) {
         }
       }
     }
+    expandedTask[COMMAND_KEY] = task[COMMAND_KEY]
+    expandedTask[ENV_KEY] = task[ENV_KEY]
   } else {
     expandedTask[COMMAND_KEY] = task
   }
