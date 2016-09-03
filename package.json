@@ -16,53 +16,6 @@
   "bin": {
     "topolo": "lib/topolo.js"
   },
-  "topolo": {
-    "showCoverage": {
-      "command": "simplehttpserver coverage",
-      "before": [
-        "opn"
-      ],
-      "optionalBefore": [
-        "test"
-      ]
-    },
-    "test": {
-      "command": "nyc mocha $1 test/test.js",
-      "defaultValues": [
-        ""
-      ],
-      "env": {
-        "NODE_ENV": "test"
-      },
-      "before": [
-        "clean"
-      ]
-    },
-    "build": {
-      "command": "webpack",
-      "env": {
-        "NODE_ENV": "production"
-      },
-      "before": [
-        "clean"
-      ]
-    },
-    "publish": {
-      "command": "np $1 --skip-cleanup",
-      "defaultValues": [
-        "patch"
-      ],
-      "before": [
-        "clean"
-      ]
-    },
-    "clean": {
-      "command": "rimraf dist .nyc_output coverage"
-    },
-    "opn": {
-      "command": "opn http://localhost:8000"
-    }
-  },
   "standard": {
     "parser": "babel-eslint",
     "globals": [
@@ -135,6 +88,7 @@
     "capitalize": "1.0.0",
     "chai": "3.5.0",
     "fecha": "2.2.0",
+    "http-server": "0.9.0",
     "mocha": "3.0.2",
     "np": "2.9.0",
     "nyc": "8.1.0",
