@@ -5,6 +5,7 @@ import {
   DEPENDENCIES_KEY
 } from './configKeys'
 import { runCommand } from './runCommand'
+import { getParams } from './paramHelpers'
 import { fatalError, startTask } from './logging'
 
 // Constants
@@ -56,7 +57,7 @@ async function handleTask ({ taskName, [COMMAND_KEY]: commands, [ENV_KEY]: env }
     const logTask = startTask(taskDisplayName)
     // If it's a function, invoke it and use the result as the command to execute
     if (isFunction(command)) {
-      command = await command()
+      command = await command(...getParams(taskName))
     }
 
     const endTask = logTask(taskName, command)

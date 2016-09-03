@@ -5,10 +5,15 @@ module.exports = {
     env: {
       NODE_ENV: 'production'
     },
-    dependencies: 'clean'
+    dependencies: {
+      before: 'clean',
+      optionalBefore: 'test'
+    }
   },
   test: {
-    command: 'nyc mocha test/test.js',
+    command: function (param) {
+      return `nyc mocha ${(param === 'watch' ? '--watch' : '')} test/test.js`
+    },
     env: {
       NODE_ENV: 'development'
     },
