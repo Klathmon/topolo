@@ -36,7 +36,7 @@ function recurse (tasks) {
       // When it's done, mark it as done then remove it from all other tasks' dependencies
       task.status = DONE
       for (let innerTask of tasks) {
-        innerTask[DEPENDENCIES_KEY] = without(innerTask[DEPENDENCIES_KEY], task.name)
+        innerTask[DEPENDENCIES_KEY] = without(innerTask[DEPENDENCIES_KEY], task.taskName)
       }
 
       // Finally, re-run the recursive function and return it's result
