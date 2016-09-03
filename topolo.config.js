@@ -13,7 +13,8 @@ module.exports = {
   test: {
     command: (subtask) => `nyc mocha ${(subtask === 'watch' ? '--watch' : '')} test/test.js`,
     env: {
-      NODE_ENV: 'development'
+      BABEL_ENV: 'development',
+      NODE_ENV: 'testing'
     },
     dependencies: 'clean'
   },
