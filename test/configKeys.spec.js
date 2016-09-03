@@ -11,7 +11,7 @@ import {
   ANYTIME_KEY
 } from '../src/configKeys'
 
-describe('Config Keys', () => {
+describe('configKeys.js', () => {
   it('have the expected value for COMMAND_KEY', () => expect(COMMAND_KEY).to.equal('command'))
   it('have the expected value for ENV_KEY', () => expect(ENV_KEY).to.equal('env'))
   it('have the expected value for DEPENDENCIES_KEY', () => expect(DEPENDENCIES_KEY).to.equal('dependencies'))
