@@ -1,5 +1,5 @@
 import { isEmpty, isString, isError } from 'lodash'
-import { white, cyan, magenta, gray } from 'chalk'
+import { white, cyan, magenta, gray, green } from 'chalk'
 import prettyHrtime from 'pretty-hrtime'
 import { format } from 'fecha'
 
@@ -34,7 +34,7 @@ export function startTask (taskName) {
   return function logTask (taskName, command) {
     log(LOG, white('Starting \'') + cyan(taskName) + white('\'...'))
     if (!isEmpty(command)) {
-      log(LOG, gray(command))
+      log(LOG, green(command))
     }
     return function endTask () {
       const timeSpent = prettyHrtime(process.hrtime(startTime))
