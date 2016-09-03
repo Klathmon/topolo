@@ -69,7 +69,7 @@ function convertToObject (taskMap) {
       taskName,
       // Since the before key should be the only one with anything in it, hoist it up to the
       // dependencies key
-      DEPENDENCIES_KEY: task[DEPENDENCIES_KEY][BEFORE_KEY]
+      [DEPENDENCIES_KEY]: task[DEPENDENCIES_KEY][BEFORE_KEY]
     }
   }
   return taskObject
