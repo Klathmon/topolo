@@ -62,7 +62,7 @@ async function handleTask ({ taskName, [COMMAND_KEY]: commands, [ENV_KEY]: env }
     }
 
     if (isString(command) && !isEmpty(command)) {
-      await runCommand(command)
+      await runCommand(command, env)
     } else {
       fatalError(`Command for task "${taskName}" is not a valid string`)
     }
