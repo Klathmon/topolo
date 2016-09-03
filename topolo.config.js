@@ -29,6 +29,8 @@ module.exports = {
   publish: 'echo "Not implemented yet..."',
   opn: {
     command: (portNumber = 8080) => `opn http://localhost:${portNumber}`,
-    dependencies: 'test'
+    dependencies: {
+      optionalBefore: 'test'
+    }
   }
 }
