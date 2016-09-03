@@ -1,86 +1,66 @@
-import { delimiter, resolve as pathResolve } from 'path'
-import spawn from 'cross-spawn'
-import spawnArgs from 'spawn-args'
-import { without } from 'lodash'
+import { without, isArray, isFunction, isString, isEmpty } from 'lodash'
 
 import {
-  COMMAND,
-  ENV,
-  REQ_BEFORE
+  COMMAND_KEY,
+  ENV_KEY,
+  DEPENDENCIES_KEY
 } from './configKeys'
+
 // Constants
 const NEVER_RUN = Symbol('NEVER_RUN')
 const RUNNING = Symbol('RUNNING')
 const DONE = Symbol('DONE')
 
-import { startCommand, logError } from './log'
+import { runCommand } from './runCommand'
+import { fatalError } from './events'
 
-export default async function runTasks (orderedTasks) {
+export default async function runTasks (sortedTaskArray) {
   // First tag every task with a status of NEVER_RUN
-  const taggedTasks = orderedTasks.map((task) => ({ ...task, status: NEVER_RUN }))
+  const taggedTasks = sortedTaskArray.map((task) => ({ ...task, status: NEVER_RUN }))
 
+  // Then down the rabbit hole we go!
   return recurse(taggedTasks)
 }
 
 function recurse (tasks) {
+  // We are going to map over every task, and handle each one
   return Promise.all(tasks.map(async function (task) {
+    if (task[DEPENDENCIES_KEY].length > 0 || task.status !== NEVER_RUN) {
+      return Promise.resolve()
+    }
     // If the task has no dependencies and has never been run, then run it
-    if (task[REQ_BEFORE].length === 0 && task.status === NEVER_RUN) {
+    if (task[DEPENDENCIES_KEY].length === 0 && task.status === NEVER_RUN) {
       // Set it to running, then await the command to finish
       task.status = RUNNING
-      let {
-        [COMMAND]: commands,
-        [ENV]: env,
-        name: taskName
-      } = task
-      let commandCounter = 0
-      for (let command of commands) {
-        commandCounter++
-        if (commands.length > 1) {
-          taskName = `${task.name} (${commandCounter} of ${commands.length})`
-        }
-        await runCommand(taskName, command, env)
-      }
+
+      await handleTask(task)
 
       // When it's done, mark it as done then remove it from all other tasks' dependencies
       task.status = DONE
       for (let innerTask of tasks) {
-        innerTask[REQ_BEFORE] = without(innerTask[REQ_BEFORE], task.name)
+        innerTask[DEPENDENCIES_KEY] = without(innerTask[DEPENDENCIES_KEY], task.name)
       }
 
       // Finally, re-run the recursive function and return it's result
       return recurse(tasks)
-    } else {
-      // Otherwise just return a resolved promise
-      return Promise.resolve()
     }
   }))
 }
 
-function runCommand (name, command, env) {
-  const endCommand = startCommand(name)
-  if (command === null) {
-    endCommand()
-    return Promise.resolve()
-  } else {
-    return new Promise((resolve, reject) => {
-      const args = spawnArgs(command, { removequotes: 'always' })
-      const proc = spawn(args.shift(), args, {
-        stdio: 'inherit',
-        env: {
-          ...process.env,
-          PATH: process.env.PATH + delimiter + pathResolve('.', 'node_modules', '.bin'),
-          ...env
-        }
-      })
+async function handleTask ({ taskName, [COMMAND_KEY]: commands, [ENV_KEY]: env }) {
+  // Ensure commands is an array
+  const commandsArray = (isArray(commands) ? commands : [commands])
 
-      proc.on('error', (err) => logError(err))
+  for (let command of commandsArray) {
+    // If it's a function, invoke it and use the result as the command to execute
+    if (isFunction(command)) {
+      command = await command()
+    }
 
-      proc.on('exit', (code) => {
-        // TODO: Handle exit code here
-        endCommand()
-        resolve()
-      })
-    })
+    if (isString(command) && !isEmpty(command)) {
+      await runCommand(command)
+    } else {
+      fatalError(`Command for task "${taskName}" is not a valid string`)
+    }
   }
 }
