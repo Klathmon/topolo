@@ -1,4 +1,4 @@
-import { includes, mapValues, isObject } from 'lodash'
+import { includes, mapValues, isObject, isArray } from 'lodash'
 
 import {
   COMMAND_KEY,
@@ -37,6 +37,11 @@ function expandTask (task) {
     if (DEPENDENCIES_KEY in task) {
       if (!isObject(task[DEPENDENCIES_KEY])) {
         expandedTask[DEPENDENCIES_KEY][BEFORE_KEY] = task[DEPENDENCIES_KEY]
+      }
+      for (let property of [BEFORE_KEY, OPTIONAL_BEFORE_KEY, AFTER_KEY, OPTIONAL_AFTER_KEY, ANYTIME_KEY]) {
+        if (!isArray(task[DEPENDENCIES_KEY][property])) {
+          task[DEPENDENCIES_KEY][property] = [task[DEPENDENCIES_KEY][property]]
+        }
       }
     }
   } else {
