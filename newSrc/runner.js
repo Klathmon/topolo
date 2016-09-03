@@ -47,8 +47,7 @@ function recurse (tasks) {
   }))
 }
 
-async function handleTask ({ [COMMAND_KEY]: commands, [ENV_KEY]: env }) {
-  const name = 'NOT DONE!!!'
+async function handleTask ({ taskName, [COMMAND_KEY]: commands, [ENV_KEY]: env }) {
   // Ensure commands is an array
   const commandsArray = (isArray(commands) ? commands : [commands])
 
@@ -61,7 +60,7 @@ async function handleTask ({ [COMMAND_KEY]: commands, [ENV_KEY]: env }) {
     if (isString(command) && !isEmpty(command)) {
       await runCommand(command)
     } else {
-      logError(`Command for task "${name}" is not a valid string`)
+      logError(`Command for task "${taskName}" is not a valid string`)
     }
   }
 }

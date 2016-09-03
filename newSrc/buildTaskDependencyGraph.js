@@ -68,6 +68,8 @@ function convertToObject (taskMap) {
   for (let [taskName, task] of taskMap) {
     taskObject[taskName] = {
       ...task,
+      // Throw the taskName into the object so it can be used later when converted into an array
+      taskName,
       // Since the before key should be the only one with anything in it, hoist it up to the
       // dependencies key
       DEPENDENCIES_KEY: task[DEPENDENCIES_KEY][BEFORE_KEY]
