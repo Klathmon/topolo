@@ -21,7 +21,7 @@ function orderTasks (tasks, requiredTaskNameSet) {
   const taskMap = new Map()
 
   for (let taskName of requiredTaskNameSet) {
-    const task = _getTask(taskName, taskMap, tasks)
+    const task = getTask(taskName, taskMap, tasks)
     const {
       [DEPENDENCIES_KEY]: {
         [BEFORE_KEY]: before,
@@ -44,7 +44,7 @@ function orderTasks (tasks, requiredTaskNameSet) {
         if (!requiredTaskNameSet.has(dependencyName)) continue
 
         // Get the task that this dependency is refrencing, and add this task to it's required befores
-        const refrencedTask = _getTask(dependencyName, taskMap, tasks)
+        const refrencedTask = getTask(dependencyName, taskMap, tasks)
         refrencedTask[DEPENDENCIES_KEY][BEFORE_KEY] = union(refrencedTask[DEPENDENCIES_KEY][BEFORE_KEY], [taskName])
       }
     }
@@ -82,6 +82,6 @@ function convertToObject (taskMap) {
  * @param  {Object} taskObject
  * @return {Object}            the task
  */
-function _getTask (taskName, taskMap, taskObject) {
+function getTask (taskName, taskMap, taskObject) {
   return (taskMap.has(taskName) ? taskMap.get(taskName) : taskObject[getRootTaskName(taskName)])
 }
