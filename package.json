@@ -75,14 +75,27 @@
     ]
   },
   "babel": {
-    "plugins": [
-      "transform-runtime",
-      "rewire"
-    ],
-    "presets": [
-      "es2015",
-      "stage-2"
-    ]
+    "env": {
+      "development": {
+        "plugins": [
+          "transform-runtime",
+          "rewire"
+        ],
+        "presets": [
+          "es2015",
+          "stage-2"
+        ]
+      },
+      "production": {
+        "plugins": [
+          "transform-runtime"
+        ],
+        "presets": [
+          "es2015-node4",
+          "stage-2"
+        ]
+      }
+    }
   },
   "nyc": {
     "include": [
@@ -117,6 +130,7 @@
     "babel-plugin-rewire": "1.0.0-rc-6",
     "babel-plugin-transform-runtime": "6.12.0",
     "babel-preset-es2015": "6.14.0",
+    "babel-preset-es2015-node4": "2.1.0",
     "babel-preset-stage-2": "6.13.0",
     "babel-register": "6.14.0",
     "capitalize": "1.0.0",
