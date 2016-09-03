@@ -20,7 +20,6 @@ export function runCommand (command = null, env = {}) {
       proc.on('error', (err) => reject(err))
 
       proc.on('exit', (code) => {
-        // TODO: Handle exit code here
         if (parseInt(code, 10) === 0) {
           resolve()
         } else {
