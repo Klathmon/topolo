@@ -15,7 +15,9 @@ export default function buildRequiredTaskList (tasks, launchTaskNames) {
     // First strip off any included params on the task name
     const rootTaskName = getRootTaskName(taskName)
     // Throw if the task doesn't exist
-    fatalError(`Required task "${rootTaskName}" not found!`)
+    if (!(rootTaskName in tasks)) {
+      fatalError(`Required task "${rootTaskName}" not found!`)
+    }
     // Grab the dependencies for this task
     const { [DEPENDENCIES_KEY]: dependencies } = tasks[rootTaskName]
     for (let property of [BEFORE_KEY, AFTER_KEY, ANYTIME_KEY]) {
