@@ -6,7 +6,7 @@ import {
 } from './configKeys'
 import { fatalError, logVerbose } from './events'
 
-export function sortTasks (taskDepGraph, requiredTaskNameSet) {
+export default function sortTasks (taskDepGraph, requiredTaskNameSet) {
   const sortedTasks = []
   const nodes = mapValues(taskDepGraph, (task) => ({
     task,
