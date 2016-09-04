@@ -6,7 +6,7 @@ import buildRequiredTaskList from '../src/buildRequiredTaskList'
 
 describe('buildRequiredTaskList.js', function () {
   let expandedConfig
-  before(function () {
+  beforeEach(function () {
     const testConfigPath = resolve(__dirname, 'test.topolo.config.js')
     delete require.cache[require.resolve(testConfigPath)]
     expandedConfig = expandConfig(require(testConfigPath))

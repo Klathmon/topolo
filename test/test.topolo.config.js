@@ -33,5 +33,12 @@ module.exports = {
     dependencies: {
       anytime: 'stringTask'
     }
+  },
+  paramDependencies: {
+    command: 'echo "anytimeDependencies"',
+    dependencies: {
+      before: ['justSyncFunctionTest:param1'],
+      after: ['justSyncFunctionTest:param2']
+    }
   }
 }
