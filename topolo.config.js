@@ -26,7 +26,10 @@ module.exports = {
     }
   },
   clean: 'rimraf lib .nyc_output coverage',
-  publish: 'echo "Not implemented yet..."',
+  publish: {
+    command: (patchLevel = 'patch') => `np ${patchLevel} --skip-cleanup`,
+    dependencies: 'clean'
+  },
   opn: {
     command: (portNumber = 8080) => `opn http://localhost:${portNumber}`,
     dependencies: {
