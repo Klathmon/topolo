@@ -5,12 +5,12 @@
   "license": "MIT",
   "description": "A simple task runner",
   "scripts": {
-    "pub": "babel-node -- ./src/topolo.js publish",
-    "build": "babel-node -- ./src/topolo.js build",
-    "test": "babel-node -- ./src/topolo.js test",
-    "testWatch": "babel-node -- ./src/topolo.js test:watch",
-    "clean": "babel-node -- ./src/topolo.js clean",
-    "showCoverage": "babel-node -- ./src/topolo.js showCoverage",
+    "pub": "topolo publish",
+    "build": "topolo build",
+    "test": "topolo test",
+    "testWatch": "topolo test:watch",
+    "clean": "topolo clean",
+    "showCoverage": "topolo showCoverage",
     "prepublish": "npm run build"
   },
   "bin": {
@@ -96,7 +96,7 @@
     "sinon": "2.0.0-pre.2",
     "sinon-chai": "2.8.0",
     "standard": "8.0.0",
-    "topolo": "0.0.16"
+    "topolo": "0.1.1"
   },
   "repository": {
     "type": "git",
