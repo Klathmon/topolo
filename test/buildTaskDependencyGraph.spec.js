@@ -20,7 +20,7 @@ describe('buildTaskDependencyGraph.js', function () {
     tasks = expandConfig(require(testConfigPath))
   })
 
-  it(`hoists all ${BEFORE_KEY}/${AFTER_KEY}/${OPTIONAL_BEFORE_KEY}/${OPTIONAL_AFTER_KEY} dependencies to the "${DEPENDENCIES_KEY}" key`, function () {
+  it(`hoists all ${BEFORE_KEY}/${AFTER_KEY} dependencies to the "${DEPENDENCIES_KEY}" key`, function () {
     const taskNameSet = buildRequiredTaskList(tasks, ['beforeAndAfter1'])
     const taskDepGraph = buildTaskDependencyGraph(tasks, taskNameSet)
     expect(Object.keys(taskDepGraph)).to.have.length(3)
@@ -31,6 +31,21 @@ describe('buildTaskDependencyGraph.js', function () {
       .that.equals('beforeAndAfter1')
     expect(taskDepGraph)
       .to.have.property('beforeAndAfter1')
+      .that.has.property(DEPENDENCIES_KEY)
+      .that.has.property('0')
+      .that.equals('stringTask')
+  })
+  it(`hoists all ${OPTIONAL_BEFORE_KEY}/${OPTIONAL_AFTER_KEY} dependencies to the "${DEPENDENCIES_KEY}" key if they are required`, function () {
+    const taskNameSet = buildRequiredTaskList(tasks, ['optDependencies1', 'stringTask', 'justCommandTask'])
+    const taskDepGraph = buildTaskDependencyGraph(tasks, taskNameSet)
+    expect(Object.keys(taskDepGraph)).to.have.length(3)
+    expect(taskDepGraph)
+      .to.have.property('justCommandTask')
+      .that.has.property(DEPENDENCIES_KEY)
+      .that.has.property('0')
+      .that.equals('optDependencies1')
+    expect(taskDepGraph)
+      .to.have.property('optDependencies1')
       .that.has.property(DEPENDENCIES_KEY)
       .that.has.property('0')
       .that.equals('stringTask')
