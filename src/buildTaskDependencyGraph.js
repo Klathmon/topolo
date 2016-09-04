@@ -11,17 +11,29 @@ import {
 import { getRootTaskName } from './paramHelpers'
 
 export default function buildTaskDependencyGraph (tasks, requiredTaskNameSet) {
-  const taskMap = orderTasks(tasks, requiredTaskNameSet)
-  const orderedTaskObject = convertToObject(taskMap)
+  const taskMap = buildTaskMap(tasks, requiredTaskNameSet)
+  const hoistedTasks = hoistDependencies(taskMap, requiredTaskNameSet)
+  const taskDependencyGraph = convertToObject(hoistedTasks)
 
-  return orderedTaskObject
+  return taskDependencyGraph
 }
 
-function orderTasks (tasks, requiredTaskNameSet) {
+function buildTaskMap (tasks, requiredTaskNameSet) {
   const taskMap = new Map()
-
   for (let taskName of requiredTaskNameSet) {
-    const task = getTask(taskName, taskMap, tasks)
+    const taskToClone = tasks[getRootTaskName(taskName)]
+    taskMap.set(taskName, {
+      ...taskToClone,
+      [DEPENDENCIES_KEY]: {
+        ...taskToClone[DEPENDENCIES_KEY]
+      }
+    })
+  }
+  return taskMap
+}
+
+function hoistDependencies (taskMap, requiredTaskNameSet) {
+  for (let [taskName, task] of taskMap) {
     const {
       [DEPENDENCIES_KEY]: {
         [BEFORE_KEY]: before,
@@ -43,9 +55,11 @@ function orderTasks (tasks, requiredTaskNameSet) {
         // Skip this dep if it's not in the required taskName set
         if (!requiredTaskNameSet.has(dependencyName)) continue
 
-        // Get the task that this dependency is refrencing, and add this task to it's required befores
-        const refrencedTask = getTask(dependencyName, taskMap, tasks)
+        // Get the task that this dependency is refrencing, add this task to it's required
+        // befores, and add it back in the map
+        const refrencedTask = taskMap.get(dependencyName)
         refrencedTask[DEPENDENCIES_KEY][BEFORE_KEY] = union(refrencedTask[DEPENDENCIES_KEY][BEFORE_KEY], [taskName])
+        taskMap.set(dependencyName, refrencedTask)
       }
     }
     // And clear out the afters (and the anytime, we already dealt with it before this step) just in case
@@ -53,8 +67,8 @@ function orderTasks (tasks, requiredTaskNameSet) {
     task[DEPENDENCIES_KEY][AFTER_KEY] = []
     task[DEPENDENCIES_KEY][OPTIONAL_AFTER_KEY] = []
 
-    // And then set the task into the taskMap
-    taskMap.set(taskName, task)
+    // And then set the task back into the taskMap
+    // taskMap.set(taskName, task)
   }
 
   return taskMap
@@ -73,15 +87,4 @@ function convertToObject (taskMap) {
     }
   }
   return taskObject
-}
-
-/**
- * Gets a task either from the taskMap, or the task "object" (called tasks elsewhere)
- * @param  {String} taskName
- * @param  {Map} taskMap
- * @param  {Object} taskObject
- * @return {Object}            the task
- */
-function getTask (taskName, taskMap, taskObject) {
-  return (taskMap.has(taskName) ? taskMap.get(taskName) : taskObject[getRootTaskName(taskName)])
 }
