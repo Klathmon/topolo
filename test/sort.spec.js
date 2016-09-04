@@ -14,8 +14,8 @@ import buildTaskDependencyGraph from '../src/buildTaskDependencyGraph'
 import sortTasks from '../src/sort'
 
 describe('buildTaskDependencyGraph.js', function () {
-  let getDepGraph
-  beforeEach(() => getDepGraph = (launchTasks = []) => {
+  let testSetup
+  beforeEach(() => testSetup = (launchTasks = []) => {
     const testConfigPath = resolve(__dirname, 'test.topolo.config.js')
     delete require.cache[require.resolve(testConfigPath)]
     const tasks = expandConfig(require(testConfigPath))
