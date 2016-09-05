@@ -62,11 +62,14 @@ async function handleTask ({ taskName, [COMMAND_KEY]: commands, [ENV_KEY]: env }
 
     const endTask = logTask(taskName, command)
 
-    if (isString(command) && !isEmpty(command)) {
-      await runCommand(command, env)
-    } else {
-      fatalError(`Command for task "${taskName}" is not a valid string`)
+    if (!isEmpty(command)) {
+      if (isString(command)) {
+        await runCommand(command, env)
+      } else {
+        fatalError(`Command for task "${taskName}" is not a valid string`)
+      }
     }
+
     endTask()
   }
 }
