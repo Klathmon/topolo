@@ -1,13 +1,6 @@
 import { resolve } from 'path'
 import { expect } from 'chai'
-import {
-  DEPENDENCIES_KEY,
-  BEFORE_KEY,
-  OPTIONAL_BEFORE_KEY,
-  AFTER_KEY,
-  OPTIONAL_AFTER_KEY,
-  ANYTIME_KEY
-} from '../src/configKeys'
+
 import expandConfig from '../src/expandConfig'
 import buildRequiredTaskList from '../src/buildRequiredTaskList'
 import buildTaskDependencyGraph from '../src/buildTaskDependencyGraph'
