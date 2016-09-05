@@ -40,5 +40,23 @@ module.exports = {
       before: ['justSyncFunctionTest:param1'],
       after: ['justSyncFunctionTest:param2']
     }
+  },
+  cyclical1: {
+    command: 'echo "cyclical1"',
+    dependencies: {
+      before: ['cyclical1']
+    }
+  },
+  cyclical2: {
+    command: 'echo "cyclical2"',
+    dependencies: {
+      before: ['cyclical3']
+    }
+  },
+  cyclical3: {
+    command: 'echo "cyclical3"',
+    dependencies: {
+      before: ['cyclical2']
+    }
   }
 }

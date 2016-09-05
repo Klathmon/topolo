@@ -24,5 +24,15 @@ describe('buildTaskDependencyGraph.js', function () {
     return sortTasks(taskDepGraph, taskNameSet)
   })
 
-  it('throws if a cyclical dependency is found')
+  it('throws if a self-cyclical dependency is found', function () {
+    expect(testSetup.bind(testSetup, ['cyclical1'])).to.throw('Cyclical')
+  })
+  it('throws if a general cyclical dependency is found', function () {
+    expect(testSetup.bind(testSetup, ['cyclical2', 'cyclical3'])).to.throw('Cyclical')
+  })
+  it('sorts tasks correctly', function () {
+    const sortedTasks = testSetup(['dependencies1', 'stringTask'])
+    expect(sortedTasks).to.have.property(0).that.has.property('taskName').that.equals('stringTask')
+    expect(sortedTasks).to.have.property(1).that.has.property('taskName').that.equals('dependencies1')
+  })
 })
