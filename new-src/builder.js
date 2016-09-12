@@ -16,20 +16,35 @@ export const tasks = {}
  *
  */
 
+const defaultFlags = {
+  optional: false,
+  silent: false
+}
+
 export function addTask (taskName, taskGenerator) {
   const task = function (...args) {
-    this.task = taskGenerator(...args)
+    task.task = taskGenerator(...args)
   }
-  Object.defineProperties(task, {
-    get optional () {
-      this.flags.optional = true
-      return this
-    },
-    get silent () {
-      this.flags.silent = true
-      return this
-    }
-  })
+  task.flags = {
+    ...defaultFlags
+  }
+  task.optional = function () {
+    this.flags.optional = true
+    return this
+  }
+  // Object.defineProperties(task, {
+  //   flags: {
+  //     ...defaultFlags
+  //   },
+  //   get optional () {
+  //     this.flags.optional = true
+  //     return this
+  //   },
+  //   get silent () {
+  //     this.flags.silent = true
+  //     return this
+  //   }
+  // })
 
   tasks[taskName] = task
 }
