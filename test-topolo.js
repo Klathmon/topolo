@@ -1,7 +1,7 @@
-import { taskStorage, addTask } from './new-src/builder'
+import { tasks, addTask } from './new-src/topolo'
 
 addTask('test1', (thing) => thing)
-addTask('test2', () => [taskStorage.test1.optional.silent])
+addTask('test2', () => [tasks.test1.silent()])
 
-console.log(taskStorage.test1)
-console.log(taskStorage.test2)
+console.log(tasks.test1)
+console.log(tasks.test2)

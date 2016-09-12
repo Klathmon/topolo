@@ -13,19 +13,12 @@
 *
 */
 
-const defaultFlags = {
-  optional: false,
-  silent: false,
-  ignoreErrors: false
-}
-
-export const taskStorage = {
-}
+export const tasks = {}
 
 export function addTask (taskName, taskGenerator, flags) {
   const task = createTask(taskGenerator, flags)
 
-  taskStorage[taskName] = task
+  tasks[taskName] = task
 }
 
 function createTask (taskGenerator, flags = {}) {
@@ -33,17 +26,22 @@ function createTask (taskGenerator, flags = {}) {
     task.task = taskGenerator(...args)
   }
   task.flags = {
-    ...defaultFlags,
+    silent: false,
+    ignoreErrors: false,
     ...flags
   }
 
-  for (let flag in defaultFlags) {
-    Object.defineProperty(task, flag, {
-      get: function () {
-        this.flags[flag] = true
-        return this
-      }
-    })
-  }
+  Object.defineProperty(task, 'silent', {
+    get: function () {
+      this.flags.silent = true
+      return this
+    }
+  })
+  Object.defineProperty(task, 'ignoreErrors', {
+    get: function () {
+      this.flags.ignoreErrors = true
+      return this
+    }
+  })
   return task
 }
