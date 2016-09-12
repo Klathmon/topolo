@@ -1,6 +1,7 @@
-import { tasks, addTask } from './new-src/builder'
+import { taskStorage, addTask } from './new-src/builder'
 
 addTask('test1', (thing) => thing)
-// console.log(tasks.task1)
-addTask('test2', tasks.test1.optional()('123'))
-console.log(tasks.test1.flags)
+addTask('test2', () => [taskStorage.test1.optional.silent])
+
+console.log(taskStorage.test1)
+console.log(taskStorage.test2)
