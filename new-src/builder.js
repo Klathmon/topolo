@@ -16,15 +16,10 @@
 export const tasks = {}
 
 export function addTask (taskName, taskGenerator, flags) {
-  const task = createTask(taskGenerator, flags)
-
-  tasks[taskName] = task
-}
-
-function createTask (taskGenerator, flags = {}) {
   const task = function (...args) {
     task.task = taskGenerator(...args)
   }
+  task.taskName = taskName
   task.flags = {
     silent: false,
     ignoreErrors: false,
@@ -43,5 +38,5 @@ function createTask (taskGenerator, flags = {}) {
       return this
     }
   })
-  return task
+  tasks[taskName] = task
 }
